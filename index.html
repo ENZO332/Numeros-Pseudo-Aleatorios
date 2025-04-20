@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles.css">
+    <title>Generador de Números Pseudoaleatorios con Pruebas Estadísticas</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Generador de Números Pseudoaleatorios con Pruebas Estadísticas</h1>
+        
+        <div class="tab-buttons">
+            <button  class="active">Generación</button>
+            <button>Pruebas Estadísticas</button>
+        </div>
+        
+        <div id="generation" class="tab active">
+            <div class="input-group">
+                <label for="method">Método:</label>
+                <select id="method">
+                    <option value="middleSquare">Parte Central del Cuadrado</option>
+                    <option value="lehmer">Lehmer</option>
+                    <option value="mixedCongruential">Congruencial Mixto</option>
+                    <option value="multiplicativeCongruential">Congruencial Multiplicativo</option>
+                    <option value="additiveCongruential">Congruencial Aditivo</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label for="seed">Semilla (n0):</label>
+                <input type="number" step="1" oninput="this.value = this.value.replace(/[^0-9]/g, '')" id="seed" min="1">
+            </div>
+            
+            <div class="input-group">
+                <label for="count">Cantidad de números:</label>
+                <input type="number" step="1" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 2)" id="count" min="1" max="99" value="10">
+            </div>
+            
+            <button>Generar Números</button>
+            
+            <table id="results">
+                <thead>
+                    <tr>
+                        <th>Iteración</th>
+                        <th>Número Generado</th>
+                    </tr>
+                </thead>
+                <tbody id="resultsBody"></tbody>
+            </table>
+        </div>
+        
+        <div id="testing" class="tab">
+               
+        </div>
+    </div>
+
+</body>
+</html>
