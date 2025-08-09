@@ -53,3 +53,60 @@ const lehmerMethod = (seed, count) => {
     
     return results;
 }
+
+
+// Método Congruencial Mixto
+const mixedCongruentialMethod = (seed, count)=> {
+    let results = [];
+    let current = seed; //se inicializa la primera 'n', que seria n0
+
+    const a = 1664525;
+    const c = 1013904223;
+    const m = Math.pow(2, 32);
+    
+    for (let i = 0; i < count; i++) {
+        current = (a * current + c) % m; //formula del congruencial mixto actualiza el valor de ni
+        const randomValue = current / m; //normaliza el número para que quede entre 0 y 1 dividiendo por m.
+        results.push(randomValue); //suma el numero generado al array results
+    }
+    
+    return results;
+}
+
+// Método Congruencial Multiplicativo
+const multiplicativeCongruentialMethod = (seed, count) => {
+    let results = [];
+    let current = seed; //se inicializa la primera 'n', que seria n0
+    const a = 48271;
+    const m = Math.pow(2, 32);
+    
+    for (let i = 0; i < count; i++) {
+        current = (a * current) % m; //formula del congruencial multiplicativo actualiza el valor de ni
+        const randomValue = current / m; //normaliza el número para que quede entre 0 y 1 dividiendo por m.
+        results.push(randomValue); //suma el numero generado al array results
+    }
+    
+    return results;
+}
+
+// Método Congruencial Aditivo
+const additiveCongruentialMethod = (seed, count) =>{
+    let results = [];
+    const k = 3
+    const m = Math.pow(2, 5);
+    
+    //se genera una secuencia previa de k numeros aleatorios de n- a n-k y se hacen enteros los k numeros generados
+    let seq = lehmerMethod(seed, k).map(num => Math.floor(num * m));
+
+    seq.push(seed); //se establece a la semilla como n0
+    
+    for (let i = 0; i < count; i++) {
+        const current =  (seq[k+i] + seq[i]) % m;
+        seq.push(current);
+
+        const randomValue = current / m; //normaliza el número para que quede entre 0 y 1 dividiendo por m.
+        results.push(randomValue); //suma el numero generado al array results
+    }
+    
+    return results;
+}
