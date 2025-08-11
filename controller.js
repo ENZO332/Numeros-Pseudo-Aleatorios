@@ -1,5 +1,26 @@
 let generatedNumbers = [];
 
+//pasar de un tab al otro
+const openTab = (tabName, button) => {
+    
+    const tabs = document.getElementsByClassName('tab');
+    const buttons = document.querySelectorAll('.tab-buttons button');
+
+    // Ocultar todos los tabs
+    for (let i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove('active');
+    }
+
+    // Quitar clase 'active' de todos los botones
+    buttons.forEach(btn => btn.classList.remove('active'));
+
+    // Activar el tab correspondiente
+    document.getElementById(tabName).classList.add('active');
+
+    // Activar el botón correspondiente
+    button.classList.add('active');
+};
+
 //generar numeros pseudo-aleatorios a partir de los input
 const generateNumbers = () => {
     const method = document.getElementById("method").value;
@@ -94,3 +115,59 @@ const verifyCount = (count) => {
     return true;
 
 }
+
+//que el textarea del tab "Pruebas Estadisticas" contenga los numeros pseudo-aleatorios generados en el otro tab
+const useGeneratedNumbers = () => {
+    if (generatedNumbers.length === 0) {
+        alert("No hay números generados para usar.");
+        return;
+    }
+    
+    const numbersStr = generatedNumbers.map(num => num.toFixed(4)).join(", ");
+    document.getElementById("numbersInput").value = numbersStr;
+}
+
+//limpiar textarea del tab "Pruebas Estadisticas"
+const clearNumbers = () => {
+    document.getElementById("numbersInput").value = "";
+}
+
+//correr la prueba seleccionada sobre los numeros ingresados y el alpha seleccionado
+const runTest = () => {
+    const numbers = parseInputNumbers();
+    if (!numbers) return; //retorna si hubo un error
+    
+    const testMethod = document.getElementById("testMethod").value;
+    const alpha = parseFloat(document.getElementById("alpha").value);
+    
+    let result;
+    
+    switch (testMethod) {
+        case "mean":
+            result = averagesTest(numbers, alpha);
+            break;
+        case "frequency":
+            result = frequencyTest(numbers, alpha);
+            break;
+        case "series":
+            result = seriesTest(numbers, alpha);
+            break;
+        case "ks":
+            result = kolmogorovSmirnovTest(numbers, alpha);
+            break;
+        case "runs":
+            result = runsAboveBelowMeanTest(numbers, alpha);
+            break;
+        default:
+            alert("Prueba no válida");
+            return;
+    }
+    
+    displayTestResult(result); //despliega en pantalla el resultado de las prueba
+}
+
+//validar y convertir numeros del textarea
+const parseInputNumbers = () => {}
+
+//mostrar el resultado de la prueba seleccionada
+function displayTestResult(result) {}

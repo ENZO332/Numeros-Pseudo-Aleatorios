@@ -13,8 +13,8 @@
         <h1>Generador de Números Pseudoaleatorios con Pruebas Estadísticas</h1>
         
         <div class="tab-buttons">
-            <button  class="active">Generación</button>
-            <button>Pruebas Estadísticas</button>
+            <button onclick="openTab('generation', this)" class="active">Generación</button>
+            <button onclick="openTab('testing', this)">Pruebas Estadísticas</button>
         </div>
         
         <div id="generation" class="tab active">
@@ -53,7 +53,40 @@
         </div>
         
         <div id="testing" class="tab">
-               
+            <div class="input-group">
+                <label for="numbersInput">Números para probar (separados por comas):</label>
+                <textarea id="numbersInput" placeholder="Ejemplo: 0.123456, 0.654321, 0.987654"></textarea>
+            </div>
+            
+            <div class="input-group">
+                <label>Opciones:</label>
+                <button onclick="useGeneratedNumbers()">Usar números generados</button>
+                <button onclick="clearNumbers()">Limpiar</button>
+            </div>
+            
+            <div class="input-group">
+                <label for="testMethod">Prueba estadística:</label>
+                <select id="testMethod">
+                    <option value="mean">Prueba de los Promedios</option>
+                    <option value="frequency">Prueba de la Frecuencia</option>
+                    <option value="series">Prueba de la Serie</option>
+                    <option value="ks">Prueba de Kolmogorov-Smirnov</option>
+                    <option value="runs">Prueba de Corridas Arriba/Abajo de la Media</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label for="alpha">Nivel de significancia (α):</label>
+                <select id="alpha">
+                    <option value="0.01">0.01</option>
+                    <option value="0.05" selected>0.05</option>
+                    <option value="0.10">0.10</option>
+                </select>
+            </div>
+            
+            <button onclick="runTest()">Ejecutar Prueba</button>
+            
+            <div id="testResult" class="test-result"></div>     
         </div>
     </div>
 

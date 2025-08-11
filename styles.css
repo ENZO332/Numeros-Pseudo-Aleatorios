@@ -32,7 +32,7 @@ label {
     vertical-align: top;
 }
 
-input, select {
+input, select, textarea {
     padding: 5px;
 }
 
@@ -54,6 +54,11 @@ button {
 
 button:hover {
     background-color: #000a;
+}
+
+textarea {
+    width: 300px;
+    height: 100px;
 }
 
 .tab-buttons button {
