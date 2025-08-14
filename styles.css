@@ -106,3 +106,35 @@ th {
 .tab-buttons {
     margin: 20px 0;
 }
+
+.test-result {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+.test-result h3 {
+    margin-top: 0;
+}
+
+.critical-value {
+    font-weight: bold;
+}
+
+.conclusion {
+    font-weight: bold;
+    margin-top: 10px;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.passed {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.failed {
+    background-color: #f8d7da;
+    color: #721c24;
+}

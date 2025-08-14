@@ -167,7 +167,98 @@ const runTest = () => {
 }
 
 //validar y convertir numeros del textarea
-const parseInputNumbers = () => {}
+const parseInputNumbers = () => {
+    const textAreaInput = document.getElementById("numbersInput").value;
+
+    if (!textAreaInput.trim()) { //verifica si el campo esta vacio o solo tiene espacios.
+        alert("Por favor ingrese números para probar.");
+        return null;
+    }
+    
+    const numbersStr = textAreaInput.split(","); //se separa los números por coma:
+    const numbers = [];
+    
+    for (let str of numbersStr) { //se recorre cada número como string, lo convierte a float y valida:
+        const num = parseFloat(str.trim());
+        if (isNaN(num)) {
+            alert(`Valor inválido encontrado: "${str}"`);
+            return null;
+        }
+        if (num < 0 || num > 1) {
+            alert(`Los números deben estar entre 0 y 1. Valor inválido: ${num}`);
+            return null;
+        }
+        numbers.push(num);
+    }
+    
+    if (numbers.length < 5) { //verifica que haya almenos 5 numeros validos
+        alert("Se necesitan al menos 5 números para realizar pruebas estadísticas.");
+        return null;
+    }
+    
+    return numbers;
+}
 
 //mostrar el resultado de la prueba seleccionada
-function displayTestResult(result) {}
+function displayTestResult(result) {
+    const testResultDiv = document.getElementById("testResult");
+    testResultDiv.innerHTML = "";
+    
+    const title = document.createElement("h3");
+    title.textContent = result.testName;
+    testResultDiv.appendChild(title);
+    
+    if (result.error) {
+        const errorP = document.createElement("p");
+        errorP.style.color = "red";
+        errorP.textContent = result.error;
+        testResultDiv.appendChild(errorP);
+        return;
+    }
+    
+    const details = document.createElement("div");
+    
+    // Mostrar detalles específicos de cada prueba
+    if (result.testName === "Prueba de los Promedios") {
+        details.innerHTML = `
+            <p>Número de muestras (n): ${result.n}</p>
+            <p>Media observada: ${result.mean.toFixed(6)}</p>
+            <p>Media esperada: ${result.expectedMean.toFixed(6)}</p>
+            <p>Valor Z calculado: ${result.zValue.toFixed(6)}</p>
+            <p>Valor crítico Z (α = ${result.alpha}): <span class="critical-value">±${result.criticalValue.toFixed(3)}</span></p>
+        `;
+    } else if (result.testName === "Prueba de la Frecuencia (Chi-cuadrado)") {
+        details.innerHTML = `
+            <p>Número de muestras (n): ${result.n}</p>
+            <p>Número de intervalos (k): ${result.k}</p>
+            <p>Chi-cuadrado calculado: ${result.chiSquared.toFixed(6)}</p>
+            <p>Valor crítico (α = ${result.alpha}, df = ${result.k - 1}): <span class="critical-value">${result.criticalValue.toFixed(3)}</span></p>
+        `;
+    } else if (result.testName === "Prueba de la Serie") {
+        details.innerHTML = `
+            <p>Número de muestras (n): ${result.n}</p>
+            <p>Número de intervalos (x): ${result.x}</p>
+            <p>Chi-cuadrado calculado: ${result.chiSquared.toFixed(6)}</p>
+            <p>Valor crítico (α = ${result.alpha}, df = ${result.x * result.x - 1}): <span class="critical-value">${result.criticalValue.toFixed(3)}</span></p>
+        `;
+    } else if (result.testName === "Prueba de Kolmogorov-Smirnov") {
+        details.innerHTML = `
+            <p>Número de muestras (n): ${result.n}</p>
+            <p>D = ${result.D.toFixed(6)}</p>
+            <p>Valor crítico (α = ${result.alpha}): <span class="critical-value">${result.criticalValue.toFixed(6)}</span></p>
+        `;
+    } else if (result.testName === "Prueba de Corridas Arriba/Abajo de la Media") {
+        details.innerHTML = `
+            <p>Número de muestras (n): ${result.n}</p>
+            <p>Valor Z calculado: ${result.chiSquared.toFixed(6)}</p>
+            <p>Valor crítico Z (α = ${result.alpha}): <span class="critical-value">±${result.criticalValue.toFixed(3)}</span></p>
+        `;
+    }
+    
+    testResultDiv.appendChild(details);
+    
+    const conclusion = document.createElement("div");
+    conclusion.className = `conclusion ${result.passed ? 'passed' : 'failed'}`;
+    conclusion.textContent = result.conclusion;
+    testResultDiv.appendChild(conclusion);
+}
